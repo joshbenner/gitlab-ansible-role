@@ -1,0 +1,159 @@
+---
+# gitlab_external_url: gitlab.example.com
+
+# gitlab_ssh_host: gitlab.example.com
+gitlab_time_zone: UTC
+
+gitlab_shared_path: /var/opt/gitlab/gitlab-rails/shared
+
+gitlab_email_enabled: false
+gitlab_email_from: gitlab@example.com
+gitlab_email_reply_to: noreply@example.com
+gitlab_email_display_name: Example.com GitLab
+gitlab_email_subject_suffix: ""
+gitlab_support_email: support@example.com
+
+gitlab_default_can_create_group: true
+gitlab_username_changing_enabled: true
+
+gitlab_default_theme: 2
+
+gitlab_default_projects_features_issues: true
+gitlab_default_projects_features_merge_requests: true
+gitlab_default_projects_features_wiki: true
+gitlab_default_projects_features_snippets: true
+gitlab_default_projects_features_builds: true
+gitlab_default_projects_features_container_registry: true
+
+gitlab_issue_closing_pattern: "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?|[Rr]esolv(?:e[sd]?|ing))(:?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?)|([A-Z][A-Z0-9_]+-\d+))+)"
+
+gitlab_repository_downloads_path: tmp/repositories
+
+gitlab_gravatar_plain_url: "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
+gitlab_gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
+
+gitlab_stuck_ci_jobs_worker_cron: 0 0 * * *
+gitlab_expire_build_artifacts_worker_cron: 50 * * * *
+gitlab_trigger_schedule_worker_cron: 0 */12 * * *
+gitlab_repository_check_worker_cron: 20 * * * *
+gitlab_admin_email_worker_cron: 0 0 * * 0
+gitlab_repository_archive_cache_worker_cron: 0 * * * *
+
+gitlab_webhook_timeout: 10
+
+gitlab_trusted_proxies: []
+
+gitlab_incoming_email_enabled: false
+gitlab_incoming_email_address: gitlab-incoming+%{key}@example.com
+gitlab_incoming_email_email: gitlab-incoming@example.com
+gitlab_incoming_email_password: secret
+gitlab_incoming_email_host: imap.example.com
+gitlab_incoming_email_port: 993
+gitlab_incoming_email_ssl: true
+gitlab_incoming_email_start_tls: false
+gitlab_incoming_email_mailbox_name: inbox
+gitlab_incoming_email_idle_timeout: 60
+
+gitlab_artifacts_enabled: true
+gitlab_artifacts_path: "{{ gitlab_shared_path }}/artifacts"
+
+gitlab_lfs_enabled: true
+gitlab_lfs_storage_path: "{{ gitlab_shared_path }}/lfs-objects"
+
+gitlab_ldap_enabled: false
+gitlab_ldap_servers: {}
+#   main: # 'main' is the GitLab 'provider ID' of this LDAP server
+#     label: 'LDAP'
+#     host: '_your_ldap_server'
+#     port: 389
+#     uid: 'sAMAccountName'
+#     method: 'plain' # "tls" or "ssl" or "plain"
+#     bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
+#     password: '_the_password_of_the_bind_user'
+#     active_directory: true
+#     allow_username_or_email_login: false
+#     block_auto_created_users: false
+#     base: ''
+#     user_filter: ''
+#     attributes:
+#       username: ['uid', 'userid', 'sAMAccountName']
+#       email:    ['mail', 'email', 'userPrincipalName']
+#       name:       'cn'
+#       first_name: 'givenName'
+#       last_name:  'sn'
+#     ## EE only
+#     group_base: ''
+#     admin_group: ''
+#     sync_ssh_keys: false
+#
+#   secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
+#     label: 'LDAP'
+#     host: '_your_ldap_server'
+#     port: 389
+#     uid: 'sAMAccountName'
+#     method: 'plain' # "tls" or "ssl" or "plain"
+#     bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
+#     password: '_the_password_of_the_bind_user'
+#     active_directory: true
+#     allow_username_or_email_login: false
+#     block_auto_created_users: false
+#     base: ''
+#     user_filter: ''
+#     attributes:
+#       username: ['uid', 'userid', 'sAMAccountName']
+#       email:    ['mail', 'email', 'userPrincipalName']
+#       name:       'cn'
+#       first_name: 'givenName'
+#       last_name:  'sn'
+#     ## EE only
+#     group_base: ''
+#     admin_group: ''
+#     sync_ssh_keys: false
+
+gitlab_manage_backup_path: true
+gitlab_backup_path: /var/opt/gitlab/backups
+gitlab_backup_archive_permissions: 0644
+gitlab_backup_keep_time: 604800
+
+gitlab_backup_aws_enabled: false
+gitlab_backup_aws_region: us-east-1
+gitlab_backup_aws_access_key_id: AKIAKIAKI
+gitlab_backup_aws_secret_access_key: secret123
+gitlab_backup_aws_encrypted: false
+gitlab_backup_aws_storage_class: STANDARD
+
+gitlab_use_bundled_redis: true
+# gitlab_bundled_redis_port: 6379
+# gitlab_bundled_redis_bind: 127.0.0.1
+
+# Only used if not using bundled Redis
+gitlab_redis_host: 127.0.0.1
+gitlab_redis_port: 6379
+# gitlab_redis_password: secret
+gitlab_redis_database: 0
+
+gitlab_smtp_enable: false
+gitlab_smtp_address: smtp.example.com
+gitlab_smtp_port: 465
+gitlab_smtp_user_name: smtp user
+gitlab_smtp_password: smtp password
+gitlab_smtp_domain: example.com
+gitlab_smtp_authentication: login
+gitlab_smtp_enable_starttls_auto: true
+gitlab_smtp_tls: false
+gitlab_smtp_openssl_verify_mode: none
+gitlab_smtp_ca_path: /etc/ssl/certs
+gitlab_smtp_ca_file: /etc/ssl/certs/ca-certificates.crt
+
+gitlab_registry_enabled: false
+gitlab_registry_external_url: https://registry.example.com
+
+gitlab_unicorn_worker_timeout: 60
+gitlab_unicorn_worker_processes: "{{ ansible_processor_vcpus + 1 }}"
+
+gitlab_use_bundled_postgres: true
+gitlab_db_encoding: utf8
+gitlab_db_host: 127.0.0.1
+gitlab_db_port: 5432
+gitlab_db_username: USERNAME
+gitlab_db_password: PASSWORD

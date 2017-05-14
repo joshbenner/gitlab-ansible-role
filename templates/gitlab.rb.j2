@@ -1,0 +1,182 @@
+## GitLab configuration settings
+# {{ ansible_managed }}
+
+## GitLab URL
+external_url '{{ gitlab_external_url }}'
+
+################################################################################
+################################################################################
+##                Configuration Settings for GitLab CE and EE                 ##
+################################################################################
+################################################################################
+
+################################################################################
+## gitlab.yml configuration
+################################################################################
+gitlab_rails['gitlab_ssh_host'] = '{{ gitlab_ssh_host }}'
+gitlab_rails['time_zone'] = '{{ gitlab_time_zone }}'
+
+## Email Settings
+gitlab_rails['gitlab_email_enabled'] = {{ gitlab_email_enabled | bool | to_json }}
+gitlab_rails['gitlab_email_from'] = '{{ gitlab_email_from }}'
+gitlab_rails['gitlab_email_display_name'] = '{{ gitlab_email_display_name }}'
+gitlab_rails['gitlab_email_reply_to'] = '{{ gitlab_email_reply_to }}'
+gitlab_rails['gitlab_email_subject_suffix'] = '{{ gitlab_email_subject_suffix }}'
+
+## GitLab user privileges
+gitlab_rails['gitlab_default_can_create_group'] = {{ gitlab_default_can_create_group | bool | to_json }}
+gitlab_rails['gitlab_username_changing_enabled'] = {{ gitlab_username_changing_enabled | bool | to_json }}
+
+### Default Theme
+gitlab_rails['gitlab_default_theme'] = {{ gitlab_default_theme }}
+
+### Default project feature settings
+gitlab_rails['gitlab_default_projects_features_issues'] = true
+gitlab_rails['gitlab_default_projects_features_merge_requests'] = true
+gitlab_rails['gitlab_default_projects_features_wiki'] = true
+gitlab_rails['gitlab_default_projects_features_snippets'] = true
+gitlab_rails['gitlab_default_projects_features_builds'] = true
+gitlab_rails['gitlab_default_projects_features_container_registry'] = true
+
+### Automatic issue closing
+gitlab_rails['gitlab_issue_closing_pattern'] = "{{ gitlab_issue_closing_pattern }}"
+
+### Download location
+gitlab_rails['gitlab_repository_downloads_path'] = '{{ gitlab_repository_downloads_path }}'
+
+### Gravatar Settings
+gitlab_rails['gravatar_plain_url'] = '{{ gitlab_gravatar_plain_url }}'
+gitlab_rails['gravatar_ssl_url'] = '{{ gitlab_gravatar_ssl_url }}'
+
+### Auxiliary jobs
+gitlab_rails['stuck_ci_jobs_worker_cron'] = "{{ gitlab_stuck_ci_jobs_worker_cron }}"
+gitlab_rails['expire_build_artifacts_worker_cron'] = "{{ gitlab_expire_build_artifacts_worker_cron }}"
+gitlab_rails['trigger_schedule_worker_cron'] = "{{ gitlab_trigger_schedule_worker_cron }}"
+gitlab_rails['repository_check_worker_cron'] = "{{ gitlab_repository_check_worker_cron }}"
+gitlab_rails['admin_email_worker_cron'] = "{{ gitlab_admin_email_worker_cron }}"
+gitlab_rails['repository_archive_cache_worker_cron'] = "{{ gitlab_repository_archive_cache_worker_cron }}"
+
+### Webhook Settings
+gitlab_rails['webhook_timeout'] = {{ gitlab_webhook_timeout }}
+
+### Trusted proxies
+gitlab_rails['trusted_proxies'] = {{ gitlab_trusted_proxies | bool | to_json }}
+
+### Reply by email
+gitlab_rails['incoming_email_enabled'] = {{ gitlab_incoming_email_enabled | bool | to_json }}
+
+#### Incoming Email Address
+gitlab_rails['incoming_email_address'] = "{{ gitlab_incoming_email_address }}"
+
+#### Email account username
+gitlab_rails['incoming_email_email'] = "{{ gitlab_incoming_email_email }}"
+
+#### Email account password
+gitlab_rails['incoming_email_password'] = "{{ gitlab_incoming_email_password }}"
+
+#### IMAP Settings
+gitlab_rails['incoming_email_host'] = "{{ gitlab_incoming_email_host }}"
+gitlab_rails['incoming_email_port'] = {{ gitlab_incoming_email_port }}
+gitlab_rails['incoming_email_ssl'] = {{ gitlab_incoming_email_ssl | bool | to_json }}
+gitlab_rails['incoming_email_start_tls'] = {{ gitlab_incoming_email_start_tls | bool | to_json }}
+
+#### Incoming Mailbox Settings
+gitlab_rails['incoming_email_mailbox_name'] = "{{ gitlab_incoming_email_mailbox_name }}"
+gitlab_rails['incoming_email_idle_timeout'] = {{ gitlab_incoming_email_idle_timeout }}
+
+### Build Artifacts
+gitlab_rails['artifacts_enabled'] = {{ gitlab_artifacts_enabled | bool | to_json }}
+gitlab_rails['artifacts_path'] = "{{ gitlab_artifacts_path }}"
+
+### Git LFS
+gitlab_rails['lfs_enabled'] = {{ gitlab_lfs_enabled | bool | to_json }}
+gitlab_rails['lfs_storage_path'] = "/mnt/storage/lfs-objects"
+
+### LDAP Settings
+gitlab_rails['ldap_enabled'] = {{ gitlab_ldap_enabled | bool | to_json }}
+{% if gitlab_ldap_enabled|bool %}
+gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
+{{ gitlab_ldap_servers | to_nice_yaml }}
+EOS
+{% endif %}
+
+### Backup Settings
+gitlab_rails['manage_backup_path'] = {{ gitlab_manage_backup_path | bool | to_json }}
+gitlab_rails['backup_path'] = "{{ gitlab_backup_path }}"
+gitlab_rails['backup_archive_permissions'] = {{ gitlab_backup_archive_permissions }}
+gitlab_rails['backup_keep_time'] = {{ gitlab_backup_keep_time }}
+{% if gitlab_backup_aws_enabled %}
+gitlab_rails['backup_upload_connection'] = {
+  'provider' => 'AWS',
+  'region' => '{{ gitlab_backup_aws_region }}',
+  'aws_access_key_id' => '{{ gitlab_backup_aws_access_key_id }}',
+  'aws_secret_access_key' => '{{ gitlab_backups_aws_secret_access_key }}'
+}
+{% if gitlab_backup_aws_encrypted %}
+gitlab_rails['backup_encryption'] = 'AES256'
+{% endif %}
+gitlab_rails['backup_storage_class'] = '{{ gitlab_backup_aws_storage_class }}'
+{% endif %}
+
+### GitLab Redis settings
+{% if not gitlab_use_bundled_redis %}
+redis['enable'] = false
+gitlab_rails['redis_host'] = "{{ gitlab_redis_host }}"
+gitlab_rails['redis_port'] = {{ gitlab_redis_port }}
+gitlab_rails['redis_database'] = {{ gitlab_redis_database }}
+{% if gitlab_redis_password is defined %}
+gitlab_rails['redis_password'] = '{{ gitlab_redis_password }}'
+{% endif %}
+{% else %}
+{% if gitlab_bundled_redis_port is defined %}
+redis['port'] = {{ gitlab_bundled_redis_port }}
+{% endif %}
+{% if gitlab_bundled_redis_bind is defined %}
+redis['bind'] = '{{ gitlab_bundled_redis_bind }}'
+{% endif %}
+{% endif %}
+
+### GitLab email server settings
+gitlab_rails['smtp_enable'] = {{ gitlab_smtp_enable | bool | to_json }}
+gitlab_rails['smtp_address'] = "{{ gitlab_smtp_address }}"
+gitlab_rails['smtp_port'] = {{ gitlab_smtp_port }}
+gitlab_rails['smtp_user_name'] = "{{ gitlab_smtp_user_name }}"
+gitlab_rails['smtp_password'] = "{{ gitlab_smtp_password }}"
+gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_domain }}"
+gitlab_rails['smtp_authentication'] = "{{ gitlab_smtp_authentication }}"
+gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto | bool | to_json }}
+gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls | bool | to_json }}
+gitlab_rails['smtp_openssl_verify_mode'] = '{{ gitlab_smtp_openssl_verify_mode }}'
+gitlab_rails['smtp_ca_path'] = "{{ gitlab_smtp_ca_path }}"
+gitlab_rails['smtp_ca_file'] = "{{ gitlab_smtp_ca_file }}"
+
+################################################################################
+## Container Registry settings
+################################################################################
+
+{% if gitlab_registry_enabled %}
+registry_external_url '{{ gitlab_registry_external_url }}'
+{% else %}
+registry['enable'] = false
+{% endif %}
+
+################################################################################
+## GitLab Unicorn
+################################################################################
+
+unicorn['worker_timeout'] = {{ gitlab_unicorn_worker_timeout }}
+unicorn['worker_processes'] = {{ [2, gitlab_unicorn_worker_processes] | max }}
+
+################################################################
+## GitLab PostgreSQL
+################################################################
+
+{% if not gitlab_use_bundled_postgres %}
+postgresql['enable'] = false
+gitlab_rails['db_adapter'] = 'postgresql'
+gitlab_rails['db_encoding'] = '{{ gitlab_db_encoding }}'
+gitlab_rails['db_host'] = '{{ gitlab_db_host }}'
+gitlab_rails['db_port'] = '{{ gitlab_db_port }}'
+gitlab_rails['db_username'] = '{{ gitlab_db_username }}'
+gitlab_rails['db_password'] = '{{ gitlab_db_password }}'
+{% endif %}
