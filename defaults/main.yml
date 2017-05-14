@@ -145,8 +145,7 @@ gitlab_smtp_openssl_verify_mode: none
 gitlab_smtp_ca_path: /etc/ssl/certs
 gitlab_smtp_ca_file: /etc/ssl/certs/ca-certificates.crt
 
-gitlab_registry_enabled: false
-gitlab_registry_external_url: https://registry.example.com
+#gitlab_registry_external_url: https://registry.example.com
 
 gitlab_unicorn_worker_timeout: 60
 gitlab_unicorn_worker_processes: "{{ ansible_processor_vcpus + 1 }}"

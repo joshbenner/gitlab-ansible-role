@@ -154,10 +154,8 @@ gitlab_rails['smtp_ca_file'] = "{{ gitlab_smtp_ca_file }}"
 ## Container Registry settings
 ################################################################################
 
-{% if gitlab_registry_enabled %}
+{% if gitlab_registry_external_url is defined %}
 registry_external_url '{{ gitlab_registry_external_url }}'
-{% else %}
-registry['enable'] = false
 {% endif %}
 
 ################################################################################
