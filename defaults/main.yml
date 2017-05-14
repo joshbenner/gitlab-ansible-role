@@ -25,7 +25,7 @@ gitlab_default_projects_features_snippets: true
 gitlab_default_projects_features_builds: true
 gitlab_default_projects_features_container_registry: true
 
-gitlab_issue_closing_pattern: "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?|[Rr]esolv(?:e[sd]?|ing))(:?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?)|([A-Z][A-Z0-9_]+-\d+))+)"
+gitlab_issue_closing_pattern: ((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?|[Rr]esolv(?:e[sd]?|ing))(:?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?)|([A-Z][A-Z0-9_]+-\d+))+)
 
 gitlab_repository_downloads_path: tmp/repositories
 
