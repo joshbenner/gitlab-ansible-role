@@ -121,6 +121,7 @@ gitlab_backup_aws_access_key_id: AKIAKIAKI
 gitlab_backup_aws_secret_access_key: secret123
 gitlab_backup_aws_encrypted: false
 gitlab_backup_aws_storage_class: STANDARD
+gitlab_backup_aws_bucket: my.s3.bucket
 
 gitlab_use_bundled_redis: true
 # gitlab_bundled_redis_port: 6379

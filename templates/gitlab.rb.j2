@@ -112,6 +112,7 @@ gitlab_rails['backup_upload_connection'] = {
   'aws_access_key_id' => '{{ gitlab_backup_aws_access_key_id }}',
   'aws_secret_access_key' => '{{ gitlab_backups_aws_secret_access_key }}'
 }
+gitlab_rails['backup_upload_remote_directory'] = '{{ gitlab_backup_aws_bucket }}'
 {% if gitlab_backup_aws_encrypted %}
 gitlab_rails['backup_encryption'] = 'AES256'
 {% endif %}
