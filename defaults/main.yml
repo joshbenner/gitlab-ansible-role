@@ -123,6 +123,10 @@ gitlab_backup_aws_encrypted: false
 gitlab_backup_aws_storage_class: STANDARD
 gitlab_backup_aws_bucket: my.s3.bucket
 
+gitlab_backup_auto_enabled: true
+# hourly, daily, weekly, monthly
+gitlab_backup_auto_frequency: daily
+
 gitlab_use_bundled_redis: true
 # gitlab_bundled_redis_port: 6379
 # gitlab_bundled_redis_bind: 127.0.0.1

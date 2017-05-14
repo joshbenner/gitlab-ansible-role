@@ -37,3 +37,12 @@
     owner: root
     mode: 0600
   notify: reconfigure gitlab
+
+- name: Configure backup cron job
+  cron:
+    name: ansible-gitlab-backup
+    state: "{{ 'present' if gitlab_backup_auto_enabled else 'absent' }}"
+    special_time: "{{ gitlab_backup_auto_frequency }}"
+    user: root
+    job: /usr/bin/gitlab-rake gitlab:backup:create
+    cron_file: ansible-gitlab-backup
